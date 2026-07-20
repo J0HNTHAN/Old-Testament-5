@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خلاصة الأنبياء الصغار — يوئيل، هوشع، عاموس، يونان، عوبديا</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e0c;
+    --surface: #1a1814;
+    --surface2: #232018;
+    --surface3: #2d2a20;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: #7a6530;
+    --amber: #d4823a;
+    --sage: #7a9e7e;
+    --rose: #c07070;
+    --sky: #6a90b0;
+    --lavender: #8878b0;
+    --text: #e8e0d0;
+    --text-dim: #a09880;
+    --text-muted: #6a6050;
+    --border: #3a3428;
+    --border-light: #4a4438;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    line-height: 1.9;
+    min-height: 100vh;
+  }
+
+  /* ===== SIDEBAR NAV ===== */
+  .sidebar {
+    position: fixed;
+    top: 0; right: 0;
+    width: 280px;
+    height: 100vh;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 200;
+    padding: 0 0 2rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    z-index: 1;
+  }
+
+  .sidebar-title {
+    font-family: 'Amiri', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .sidebar-close {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 4px;
+    font-size: 1.3rem;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+
+  .sidebar-close:hover { color: var(--gold); }
+
+  .nav-section { padding: 0.2rem 0; }
+
+  .nav-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1.5rem;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-right: 3px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+    line-height: 1.4;
+  }
+
+  .nav-section-header:hover {
+    color: var(--gold-light);
+    background: var(--surface2);
+    border-right-color: var(--gold);
+  }
+
+  .nav-section-header .nav-arrow {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+    margin-right: 0.3rem;
+  }
+
+  .nav-section.open .nav-section-header .nav-arrow { transform: rotate(180deg); }
+
+  .nav-section-body { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+  .nav-section.open .nav-section-body { max-height: 500px; }
+
+  .nav-link {
+    display: block;
+    padding: 0.5rem 1.5rem 0.5rem 2.2rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 400;
+    transition: all 0.2s;
+    border-right: 3px solid transparent;
+    line-height: 1.4;
+  }
+
+  .nav-link:hover {
+    color: var(--gold-light);
+    background: var(--surface2);
+    border-right-color: var(--gold-dim);
+  }
+
+  .nav-divider { height: 1px; background: var(--border); margin: 0.3rem 1.5rem; }
+
+  .hamburger {
+    display: none;
+    position: fixed;
+    top: 1rem; right: 1rem;
+    z-index: 300;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    transition: background 0.2s;
+  }
+  .hamburger:hover { background: var(--surface2); }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 150;
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .sidebar-overlay.active { display: block; opacity: 1; }
+
+  .main { margin-right: 280px; min-height: 100vh; }
+
+  .hero {
+    background: linear-gradient(160deg, #1a1510 0%, #0f0e0c 60%);
+    padding: 5rem 4rem 4rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -40px; left: -40px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag { font-size: 0.75rem; letter-spacing: 0.2em; color: var(--gold-dim); text-transform: uppercase; margin-bottom: 1rem; font-weight: 600; }
+  .hero h1 { font-family: 'Amiri', serif; font-size: 3rem; color: var(--gold-light); line-height: 1.3; margin-bottom: 1rem; }
+  .hero p { color: var(--text-dim); max-width: 640px; font-size: 1.05rem; }
+  .hero-ornament { font-family: 'Amiri', serif; font-size: 5rem; color: rgba(201,168,76,0.08); position: absolute; left: 4rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
+
+  .chapter { border-bottom: 1px solid var(--border); }
+  .chapter-header { padding: 3rem 4rem 2rem; position: relative; }
+  .chapter-number { font-size: 0.75rem; letter-spacing: 0.2em; font-weight: 700; margin-bottom: 0.5rem; }
+  .chapter-title { font-family: 'Amiri', serif; font-size: 2.2rem; line-height: 1.3; margin-bottom: 0.5rem; }
+  .chapter-subtitle { font-size: 0.95rem; color: var(--text-dim); }
+  .chapter-stripe { height: 3px; width: 80px; margin: 1rem 0 0; border-radius: 2px; }
+  .chapter-body { padding: 0 4rem 3rem; }
+
+  .ch-1 { --ch: var(--gold); }
+  .ch-2 { --ch: var(--amber); }
+  .ch-3 { --ch: var(--sage); }
+  .ch-4 { --ch: var(--rose); }
+  .ch-5 { --ch: var(--sky); }
+
+  .chapter-number { color: var(--ch); }
+  .chapter-title { color: var(--ch); }
+  .chapter-stripe { background: var(--ch); }
+
+  .section { margin-bottom: 2.5rem; }
+  .section-title {
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem;
+    color: var(--ch);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-title::before { content: '◆'; font-size: 0.6rem; opacity: 0.7; }
+
+  .subsection-title {
+    font-size: 1.1rem; font-weight: 700; color: var(--text);
+    margin: 1.5rem 0 0.6rem; padding: 0.4rem 0.9rem;
+    border-right: 3px solid var(--ch); background: var(--surface2);
+  }
+  .sub-subsection { font-size: 1rem; font-weight: 700; color: var(--gold-light); margin: 1.2rem 0 0.4rem; }
+
+  p { color: var(--text); margin-bottom: 0.8rem; text-align: justify; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .card { background: var(--surface2); border: 1px solid var(--border); border-top: 3px solid var(--ch); padding: 1.2rem 1.4rem; border-radius: 2px; }
+  .card-title { font-weight: 700; color: var(--ch); margin-bottom: 0.5rem; font-size: 1rem; }
+  .card p { font-size: 0.9rem; color: var(--text-dim); margin: 0; }
+
+  .styled-list { list-style: none; padding: 0; margin: 0.5rem 0 1rem; }
+  .styled-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--border); color: var(--text); font-size: 0.95rem; display: flex; gap: 0.7rem; align-items: flex-start; line-height: 1.7; }
+  .styled-list li:last-child { border-bottom: none; }
+  .styled-list li::before { content: '•'; color: var(--ch); font-size: 1.2rem; flex-shrink: 0; margin-top: -0.1rem; }
+
+  .num-list { list-style: none; padding: 0; counter-reset: item; margin: 0.5rem 0 1rem; }
+  .num-list li { counter-increment: item; padding: 0.5rem 0; border-bottom: 1px solid var(--border); color: var(--text); font-size: 0.95rem; display: flex; gap: 0.8rem; align-items: flex-start; line-height: 1.7; }
+  .num-list li:last-child { border-bottom: none; }
+  .num-list li::before {
+    content: counter(item); background: var(--ch); color: #0f0e0c;
+    font-size: 0.75rem; font-weight: 900; width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.15rem;
+  }
+
+  .verse-box {
+    background: var(--surface2); border: 1px solid var(--border); border-right: 4px solid var(--ch);
+    padding: 1.2rem 1.4rem; margin: 1rem 0; border-radius: 0 2px 2px 0;
+    font-family: 'Amiri', serif; font-size: 1.05rem; line-height: 2; color: var(--text);
+  }
+  .verse-ref { font-size: 0.8rem; color: var(--ch); font-family: 'Cairo', sans-serif; margin-top: 0.5rem; font-weight: 600; }
+
+  .info-box { background: var(--surface2); border: 1px solid var(--border-light); padding: 1.2rem 1.5rem; margin: 1rem 0; border-radius: 2px; }
+  .info-box .info-label { font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 700; color: var(--ch); margin-bottom: 0.6rem; text-transform: uppercase; }
+
+  .key-point {
+    background: var(--surface2); border: 1px solid var(--border-light); border-right: 4px solid var(--ch);
+    padding: 1rem 1.3rem; margin: 1rem 0; border-radius: 0 2px 2px 0; font-size: 0.98rem; color: var(--text);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1rem 0; }
+  .col-box { background: var(--surface2); border: 1px solid var(--border); padding: 1.2rem 1.4rem; border-radius: 2px; }
+  .col-box h4 { color: var(--ch); font-size: 1rem; margin-bottom: 0.7rem; font-family: 'Amiri', serif; }
+  .col-box ul { list-style: none; padding: 0; }
+  .col-box ul li { padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--text-dim); line-height: 1.5; }
+  .col-box ul li:last-child { border-bottom: none; }
+
+  .book-parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.7rem; margin: 1rem 0; }
+  .book-part { background: var(--surface2); border: 1px solid var(--border); padding: 1rem; border-radius: 2px; }
+  .book-part .part-label { font-size: 0.75rem; color: var(--ch); font-weight: 700; letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+  .book-part .part-name { font-size: 0.9rem; color: var(--text); font-weight: 600; margin-bottom: 0.3rem; }
+  .book-part .part-ref { font-size: 0.8rem; color: var(--text-muted); }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(100%); box-shadow: -4px 0 30px rgba(0,0,0,0.5); }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-close { display: flex; align-items: center; justify-content: center; }
+    .hamburger { display: flex; }
+    .main { margin-right: 0; }
+    .hero { padding: 4rem 1.5rem 2.5rem; }
+    .chapter-header { padding: 2rem 1.5rem 1.5rem; }
+    .chapter-body { padding: 0 1.5rem 2rem; }
+    .hero h1 { font-size: 2rem; }
+    .cards { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .hero-ornament { display: none; }
+  }
+
+  .badge {
+    display: inline-block; padding: 0.15rem 0.6rem; background: rgba(201,168,76,0.12);
+    color: var(--ch); font-size: 0.75rem; font-weight: 700; border-radius: 20px;
+    border: 1px solid var(--gold-dim); margin: 0 0.2rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<button class="hamburger" id="hamburgerBtn" aria-label="فتح القائمة">☰</button>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-title">📖 الأنبياء الصغار</span>
+    <button class="sidebar-close" id="sidebarClose" aria-label="إغلاق القائمة">✕</button>
+  </div>
+
+  <div class="nav-section open">
+    <div class="nav-section-header" onclick="toggleSection(this)"><span>١. سفر يوئيل</span><span class="nav-arrow">▼</span></div>
+    <div class="nav-section-body">
+      <a href="#joel-author" class="nav-link" onclick="closeSidebarOnMobile()">كاتب السفر</a>
+      <a href="#joel-features" class="nav-link" onclick="closeSidebarOnMobile()">سمات السفر</a>
+      <a href="#joel-parts" class="nav-link" onclick="closeSidebarOnMobile()">أقسام السفر</a>
+      <a href="#joel-key" class="nav-link" onclick="closeSidebarOnMobile()">المحاور الأساسية</a>
+      <a href="#joel-christ" class="nav-link" onclick="closeSidebarOnMobile()">المسيح في يوئيل</a>
+    </div>
+  </div>
+  <div class="nav-divider"></div>
+
+  <div class="nav-section">
+    <div class="nav-section-header" onclick="toggleSection(this)"><span>٢. سفر هوشع</span><span class="nav-arrow">▼</span></div>
+    <div class="nav-section-body">
+      <a href="#hosea-intro" class="nav-link" onclick="closeSidebarOnMobile()">الأنبياء الصغار</a>
+      <a href="#hosea-author" class="nav-link" onclick="closeSidebarOnMobile()">كاتب السفر</a>
+      <a href="#hosea-features" class="nav-link" onclick="closeSidebarOnMobile()">سمات السفر</a>
+      <a href="#hosea-repentance" class="nav-link" onclick="closeSidebarOnMobile()">سفر هوشع والتوبة</a>
+      <a href="#hosea-nt" class="nav-link" onclick="closeSidebarOnMobile()">هوشع والعهد الجديد</a>
+      <a href="#hosea-parts" class="nav-link" onclick="closeSidebarOnMobile()">أقسام السفر</a>
+      <a href="#hosea-key" class="nav-link" onclick="closeSidebarOnMobile()">المحاور الأساسية</a>
+      <a href="#hosea-christ" class="nav-link" onclick="closeSidebarOnMobile()">المسيح في هوشع</a>
+    </div>
+  </div>
+  <div class="nav-divider"></div>
+
+  <div class="nav-section">
+    <div class="nav-section-header" onclick="toggleSection(this)"><span>٣. سفر عاموس</span><span class="nav-arrow">▼</span></div>
+    <div class="nav-section-body">
+      <a href="#amos-author" class="nav-link" onclick="closeSidebarOnMobile()">كاتب السفر</a>
+      <a href="#amos-date" class="nav-link" onclick="closeSidebarOnMobile()">زمن كتابة السفر</a>
+      <a href="#amos-overview" class="nav-link" onclick="closeSidebarOnMobile()">نظرة عامة</a>
+      <a href="#amos-parts" class="nav-link" onclick="closeSidebarOnMobile()">أقسام السفر</a>
+      <a href="#amos-key" class="nav-link" onclick="closeSidebarOnMobile()">المحاور الأساسية</a>
+      <a href="#amos-christ" class="nav-link" onclick="closeSidebarOnMobile()">المسيح في عاموس</a>
+    </div>
+  </div>
+  <div class="nav-divider"></div>
+
+  <div class="nav-section">
+    <div class="nav-section-header" onclick="toggleSection(this)"><span>٤. سفر يونان</span><span class="nav-arrow">▼</span></div>
+    <div class="nav-section-body">
+      <a href="#jonah-author" class="nav-link" onclick="closeSidebarOnMobile()">كاتب السفر</a>
+      <a href="#jonah-date" class="nav-link" onclick="closeSidebarOnMobile()">زمن كتابة السفر</a>
+      <a href="#jonah-features" class="nav-link" onclick="closeSidebarOnMobile()">سمات السفر</a>
+      <a href="#jonah-parts" class="nav-link" onclick="closeSidebarOnMobile()">أقسام السفر</a>
+      <a href="#jonah-key" class="nav-link" onclick="closeSidebarOnMobile()">المحاور الأساسية</a>
+      <a href="#jonah-christ" class="nav-link" onclick="closeSidebarOnMobile()">المسيح في يونان</a>
+    </div>
+  </div>
+  <div class="nav-divider"></div>
+
+  <div class="nav-section">
+    <div class="nav-section-header" onclick="toggleSection(this)"><span>٥. سفر عوبديا</span><span class="nav-arrow">▼</span></div>
+    <div class="nav-section-body">
+      <a href="#obadiah-author" class="nav-link" onclick="closeSidebarOnMobile()">كاتب السفر</a>
+      <a href="#obadiah-date" class="nav-link" onclick="closeSidebarOnMobile()">زمن كتابة السفر</a>
+      <a href="#obadiah-features" class="nav-link" onclick="closeSidebarOnMobile()">سمات السفر</a>
+      <a href="#obadiah-jeremiah" class="nav-link" onclick="closeSidebarOnMobile()">عوبديا وإرميا</a>
+      <a href="#obadiah-parts" class="nav-link" onclick="closeSidebarOnMobile()">أقسام السفر</a>
+      <a href="#obadiah-key" class="nav-link" onclick="closeSidebarOnMobile()">المحاور الأساسية</a>
+      <a href="#obadiah-christ" class="nav-link" onclick="closeSidebarOnMobile()">المسيح في عوبديا</a>
+    </div>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="hero">
+    <div class="hero-ornament">✦</div>
+    <div class="hero-tag">الكلية الإكليريكية القبطية الأرثوذكسية بالإسكندرية</div>
+    <h1>الأنبياء الصغار — العهد القديم</h1>
+    <p>دراسة في خمسة من أسفار الأنبياء الصغار: يوئيل، هوشع، عاموس، يونان، وعوبديا — كاتب كل سفر، سماته، أقسامه، محاوره الأساسية، وظهور المسيح فيه.</p>
+  </div>
+
+  <!-- ══════════ سفر يوئيل ══════════ -->
+  <section class="chapter ch-1" id="joel">
+    <div class="chapter-header">
+      <div class="chapter-number">السفر الأول</div>
+      <h2 class="chapter-title">سفر يوئيل</h2>
+      <div class="chapter-subtitle">سفر التجديد الروحي المستمر عن طريق عطية الروح القدس</div>
+      <div class="chapter-stripe"></div>
+    </div>
+    <div class="chapter-body">
+
+      <div class="section">
+        <p>سفر يوئيل هو سفر التجديد، سفر التوبة الواهبة التجديد الروحي المستمر، عن طريق عطية الروح القدس الساكن فينا، والعامل في حياتنا.</p>
+      </div>
+
+      <div class="section" id="joel-author">
+        <div class="section-title">أولاً: كاتب السفر</div>
+        <p>كاتب السفر هو يوئيل بن فثوئيل النبي بحسب ما جاء في بداية السفر، ومعنى كلمة يوئيل "يهوه هو الله"، لم يُذكر في أي موضع آخر سوى في هذا السفر المنسوب له.</p>
+        <p>من تكراره الحديث عن صهيون وعن أورشليم وعن الكهنة وبيت الرب وعن كلمة الله، يُرجَّح إنه من سكان أورشليم أو حواليها، وأنه ربما كان كاهنًا مع كونه نبيًّا.</p>
+        <p>عاصر يوئيل النبي غارات الجراد، ليراها قد حوّلت السماء إلى غمام قاتم، لكنه ببصيرته الداخلية، أدرك أن الشمس خلف الغيمة، وأن الله يرق نحو شعبه جدًا حتى في أمّر لحظات التأديب.</p>
+        <p>تنبأ غالبية الأنبياء عن شخص السيد المسيح وسماته وخدمته، أما يوئيل فركز على عطية الروح القدس، الذي أرسله السيد المسيح في يوم البنطقستي (يوئيل ٢: ٢٩)، إنه يحول برية قلوبنا المحطمة إلى فردوس الله المثمر، لذلك يُسمى يوئيل النبي "نبي العنصرة".</p>
+        <div class="info-box">
+          <div class="info-label">زمن كتابة السفر</div>
+          <p style="margin:0;">لا توجد إشارات واضحة في السفر عن تاريخ كتابته، لكن الأرجح إنها كُتِبَت في أيام يوآش الملك، وهو بعد صبي صغير تحت وصاية يهوياداع الكاهن (٢مل ١١). يستند هذا الرأي إلى أن السفر يشير إلى الكهنة وليس إلى الملوك، ولا يشير إلى مملكة إسرائيل الشمالية، كما لا يذكر أشور أو بابل على أساس انتهاء سلطتهما وسقوطهما.</p>
+        </div>
+      </div>
+
+      <div class="section" id="joel-features">
+        <div class="section-title">ثانياً: سمات السفر</div>
+        <ul class="styled-list">
+          <li>تحدث يوئيل النبي عن التأديبات التي بسماح من الله وتحققت فعلاً، وهو هجوم أسراب الجراد على الزراعات ككارثة أصابتهم بالمجاعات والأوبئة والانهيار الاقتصادي، وتحدث أيضًا عن "يوم الرب" الذي يجب أن تنتظره كل الأجيال كيوم قريب.</li>
+          <li>رأى النبي يد الله الخفية وقد حركت هذه الجيوش لتحتل كل جرادة مكانًا محددًا لأجل التأديب وإدانة الشر.</li>
+          <li>انفرد يوئيل عن بقية الأنبياء بعدم تحديد تاريخ زمني لنبوته، فلم يذكر أسماء ملوك يهوذا أو إسرائيل المعاصرين له، لأن نبوته تركزت على "يوم الرب" القادم سريعًا.</li>
+          <li>عطية الروح القدس عنده ليست مقصورة على أمة معينة، بل هي عطية الله لكل بشر (يؤ ٢: ٢٨).</li>
+          <li>من جهة الأسلوب، لغته العبرية فصيحة وبليغة، كتب أغلبه بأسلوب شعري رقيق، زينه بأنواع المجاز الدقيق.</li>
+          <li>يدعى يوئيل "نبي أسفار موسى الخمسة"، إذ اقتبس من هذه الأسفار حوالي ٢٠ مرة.</li>
+          <li>من أجمل سمات سفر يوئيل أنه لا يخلو أصحاح بدون رسالة رجاء قائمة على دعوة التوبة.</li>
+        </ul>
+      </div>
+
+      <div class="section" id="joel-parts">
+        <div class="section-title">ثالثاً: أقسام السفر</div>
+        <ul class="num-list">
+          <li><strong>الأصحاح الأول:</strong> غارات الجراد — يصف النبي غارات الجراد الأربع التي حدثت في أيامه لا ككوارث طبيعية فحسب، بل كجزء من خطة الله لخلاصنا.</li>
+          <li><strong>الأصحاح الثاني:</strong> غارات الأعداء والدعوة للتوبة — إذ لم يستجب يهوذا للإنذار الإلهي خلال غارات الجراد، حدّثه بصوت أكثر مرارة، وفيما هو يجرح يقدم له روحه القدوس.</li>
+          <li><strong>الأصحاح الثالث:</strong> يوم الرب — ينطلق يوئيل من الحديث عن التأديبات الإلهية إلى يوم الرب العظيم الذي فيه يتمجد الله بكسر كبرياء الأمم وتكريم أولاده.</li>
+        </ul>
+      </div>
+
+      <div class="section" id="joel-key">
+        <div class="section-title">رابعاً: المحاور الأساسية للسفر</div>
+        <div class="key-point"><strong>الكلمة المحورية للسفر:</strong> يوم الرب — ركز يوئيل النبي من خلال أحداث الجراد وأحداث المستقبل على الدعوة للتوبة استعدادًا لهذا اليوم.</div>
+        <div class="verse-box">
+          «فَإِنَّ يَوْمَ الرَّبِّ عَظِيمٌ وَمَخُوفٌ جِدًّا، فَمَنْ يُطِيقُهُ؟»
+          <div class="verse-ref">(يؤ ٢: ١١)</div>
+        </div>
+        <div class="verse-box">
+          «وَيَكُونُ بَعْدَ ذَلِكَ أَنِّي أَسْكُبُ رُوحِي عَلَى كُلِّ بَشَرٍ، فَيَتَنَبَّأُ بَنُوكُمْ وَبَنَاتُكُمْ، وَيَحْلُمُ شُيُوخُكُمْ أَحْلاَمًا، وَيَرَى شَبَابُكُمْ رُؤًى. وَعَلَى العَبِيدِ أَيْضًا... أَسْكُبُ رُوحِي فِي تِلْكَ الأَيَّامِ»
+          <div class="verse-ref">(يؤ ٢: ٢٨-٢٩)</div>
+        </div>
+        <div class="key-point"><strong>الأصحاح المحوري:</strong> يؤ ٢ — دعوة يهوذا للتوبة والرجوع لله، مع وعد بالصفح والمغفرة، ثم وعد بأعظم عطية وهي روحه القدوس.</div>
+      </div>
+
+      <div class="section" id="joel-christ">
+        <div class="section-title">خامساً: المسيح في سفر يوئيل</div>
+        <p>يتحقَّق في سفر يوئيل الوعد بحلول الروح القدس على الذين يؤمنون بالمسيح، والذي لن يكون إلا بصليبه وقيامته وصعوده إلى السموات. وقد استشهد القديس بطرس الرسول بهذه النبوة يوم الخمسين في عظته الأولى (أع ٢)، كما نرى المسيح في هذا السفر كديّان عادل يحكم على كل الأمم في وادي يهوشافاط.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════ سفر هوشع ══════════ -->
+  <section class="chapter ch-2" id="hosea">
+    <div class="chapter-header">
+      <div class="chapter-number">السفر الثاني</div>
+      <h2 class="chapter-title">سفر هوشع</h2>
+      <div class="chapter-subtitle">رسالة عن محبة الله الدائمة لشعبه رغم انحرافه</div>
+      <div class="chapter-stripe"></div>
+    </div>
+    <div class="chapter-body">
+
+      <div class="section" id="hosea-intro">
+        <div class="section-title">الأنبياء الصغار</div>
+        <p>جاءت تسمية "الأنبياء الصغار" في الترجمة السبعينية والفولجاتا، لكنها لم تُذكر في النسخة العبرية. لم تقم هذه التسمية بسبب صغر شأن هؤلاء الأنبياء بين بقية أنبياء العهد القديم، وإنما لمجرد قصر نبواتهم المكتوبة. اهتم اليهود بهذه الأسفار فوضعوها معًا في سفر واحد بكونها تخدم هدفًا متكاملاً، إذ هي تغطي الفترة الحالكة الظلام التي عاشتها مملكتا إسرائيل ويهوذا، سواء قبل سبي إسرائيل بيد أشور أو سبي يهوذا بيد بابل، وأثناء السبي وبعده أيضًا.</p>
+      </div>
+
+      <div class="section" id="hosea-author">
+        <div class="section-title">أولاً: كاتب السفر</div>
+        <ul class="styled-list">
+          <li>كاتب السفر هو هوشع بن بئيري من بيت شمس من سبط يساكر. ومعنى اسمه "خلاص"، ويشترك مع اسم "يشوع" و"يسوع" في نفس المصدر العبري.</li>
+          <li>هوشع هو النبي الوحيد الذي من المملكة الشمالية.</li>
+          <li>من أنبياء ما قبل السبي، شاهد سبي إسرائيل أو سقوط السامرة عام ٧٢٢ ق.م. بواسطة آشور، وعاصر أشعياء النبي وميخا النبي في يهوذا، كما عاصر عاموس في إسرائيل.</li>
+          <li>يذكر "إفرايم" ٣٦ مرة بمعنى مملكة إسرائيل الشمالية كلها، مما يوحي بأنه كان من مواطني جبل أفرايم.</li>
+          <li>تغطي نبوة هوشع مدة أكثر من أربعين سنة تقريبًا، ويقول بعض الدارسين إنها امتدت إلى حوالي السبعين سنة.</li>
+        </ul>
+      </div>
+
+      <div class="section" id="hosea-features">
+        <div class="section-title">ثانياً: سمات السفر</div>
+        <p>جاءت نبوة هوشع لمملكة إسرائيل في زمن الملك يربعام الثاني، حيث كانت المملكة في فترة من أزهى عصورها من ناحية الرخاء المادي، لكن من الناحية الروحية كان هناك انحلال أخلاقي ناتج عن الضعف الروحي والابتعاد عن الله، ومرتبطًا بانتشار العبادة الوثنية.</p>
+        <div class="verse-box">
+          «لأَنَّهُ لَيْسَ أَمَانَةٌ وَلاَ إِحْسَانٌ وَلاَ مَعْرِفَةُ اللهِ فِي الأَرْضِ» — «تَزْنِي زِنًى قَدْ زَنَتِ الأَرْضُ عَنِ الرَّبِّ»
+          <div class="verse-ref">(هو ٤: ١؛ هو ١: ٢)</div>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">زواج هوشع من جومر الزانية</div>
+            <p>يستخدم الله حياة هوشع في زواجه بجومر الزانية كنموذج لعلاقة الله بشعبه إسرائيل، وليشعر هوشع بإحساس الله نحو شعبه المبتعد عنه في زنا روحي.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">أسماء الأبناء</div>
+            <p>"يزرعيل" (الله يشتت)، "لورحامة" (لا أرحم)، "لوعمي" (لستم شعبي) — أسماء ترمز لتأديب الله المتدرج على انحراف إسرائيل، رغم أن السفر يحمل أيضًا آيات رجاء عظيم بالتوبة.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">عدم معرفة الله</div>
+            <p>المرض الأساسي للشعب: «قَدْ هَلَكَ شَعْبِي مِنْ عَدَمِ الْمَعْرِفَةِ» (هو ٤: ٦). فسدت بصيرة الشعب والرعاة فصاروا كعميان غير قادرين على رؤية الله.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">سمات الشعب المنحرف</div>
+            <p>ارتباط بالأرض، فقدان الشبع، عدم التمييز، اللامبالاة، والكبرياء — خمس سمات يصفها السفر بلغة شعرية غنية بالتشبيهات (الماء، العث، السوس، الأسد، الحمامة الحمقاء).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="hosea-repentance">
+        <div class="section-title">سفر هوشع من أروع أسفار "التوبة"</div>
+        <p>بالتوبة ترجع النفس إلى عريسها لتجده: سندها، طبيبها، حبيبها، قوتها، عريسها، فردوسها، وواهبها القيامة (هو ١٤).</p>
+        <div class="verse-box">
+          «إِنِّي أُرِيدُ رَحْمَةً لاَ ذَبِيحَةً، وَمَعْرِفَةَ اللهِ أَكْثَرَ مِنْ مُحْرَقَاتٍ»
+          <div class="verse-ref">(هو ٦: ٦)</div>
+        </div>
+      </div>
+
+      <div class="section" id="hosea-nt">
+        <div class="section-title">سفر هوشع والعهد الجديد</div>
+        <ul class="num-list">
+          <li>اقتبس الرسول بولس في رومية ٩: ٢٥ من هوشع ٢: ٢٣ في حديثه عن دعوة الأمم.</li>
+          <li>«مِنْ مِصْرَ دَعَوْتُ ابْنِي» (هو ١١: ١) اقتبسها متى ٢: ١٥ عن هروب المسيح إلى مصر.</li>
+          <li>«إِنِّي أُرِيدُ رَحْمَةً لاَ ذَبِيحَةً» اقتبسها السيد المسيح في متى ٩: ١٣ و١٢: ٧.</li>
+          <li>«أَيْنَ شَوْكَتُكِ يَا مَوْتُ؟ أَيْنَ غَلَبَتُكِ يَا هَاوِيَةُ؟» (هو ١٣: ١٤) اقتبسها بولس في ١كو ١٥: ٥٥.</li>
+        </ul>
+      </div>
+
+      <div class="section" id="hosea-parts">
+        <div class="section-title">ثالثاً: أقسام السفر</div>
+        <div class="grid-2">
+          <div class="col-box">
+            <h4>تقسيم عام</h4>
+            <ul>
+              <li>هوشع الزوج الأمين وجومر الزانية: ص١-٣</li>
+              <li>الله الأمين وإسرائيل الشعب الخاطئ: ص٤-١٤</li>
+            </ul>
+          </div>
+          <div class="col-box">
+            <h4>تقسيم أكثر تفصيلاً</h4>
+            <ul>
+              <li>حال إسرائيل: ص١-٣</li>
+              <li>الرب يحاجج شعبه: ص٤-١٠</li>
+              <li>التأديب مع إشراقة الخلاص: ص١٠-١٣</li>
+              <li>ثمار التوبة: ص١٤</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="hosea-key">
+        <div class="section-title">رابعاً: المحاور الأساسية للسفر</div>
+        <div class="key-point"><strong>الكلمة المحورية للسفر:</strong> محبة الله الدائمة لشعبه إسرائيل — قدّم الله هذه الرسالة عمليًا من خلال زواج هوشع من جومر الزانية.</div>
+        <div class="verse-box">
+          «كَيْفَ أَجْعَلُكَ يَا أَفْرَايِمُ؟ كَيْفَ أُسْلِمُكَ يَا إِسْرَائِيلُ؟... قَدِ انْقَلَبَ عَلَيَّ قَلْبِي، اضْطَرَمَتْ مَرَاحِمِي جَمِيعًا»
+          <div class="verse-ref">(هو ١١: ٨)</div>
+        </div>
+        <div class="key-point"><strong>الأصحاح المحوري:</strong> هو ٤ يكشف خطية رفض معرفة الله، بينما هو ١٤ يقدم صورة جميلة للرجاء في قبول توبة الخطاة.</div>
+      </div>
+
+      <div class="section" id="hosea-christ">
+        <div class="section-title">خامساً: المسيح في سفر هوشع</div>
+        <p>يُرى المسيح بمحبته الخلاصية الدائمة تجاه البشرية في النموذج المصغر لسلوك هوشع مع امرأته الزانية جومر. كما استشهد العهد الجديد بسفر هوشع في قصة هروب الطفل يسوع إلى مصر: «مِنْ مِصْرَ دَعَوْتُ ابْنِي» (هو ١١: ١؛ مت ٢: ١٥). كما نرى إشارة لقيامة المسيح في اليوم الثالث: «فِي الْيَوْمِ الثَّالِثِ يُقِيمُنَا فَنَحْيَا أَمَامَهُ» (هو ٦: ٢).</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════ سفر عاموس ══════════ -->
+  <section class="chapter ch-3" id="amos">
+    <div class="chapter-header">
+      <div class="chapter-number">السفر الثالث</div>
+      <h2 class="chapter-title">سفر عاموس</h2>
+      <div class="chapter-subtitle">شهوة قلب الله في حياة قداسة مستمرة وتوبة دائمة</div>
+      <div class="chapter-stripe"></div>
+    </div>
+    <div class="chapter-body">
+
+      <div class="section">
+        <p>يكشف لنا سفر عاموس عن شهوة قلب الله الذي يريد أن يعيش كل إنسان في حياة قداسة مستمرة وتوبة دائمة، مستعدًا دائمًا للقاء إلهه، يتمتع بالعشرة الدائمة مع الله بعيدًا عن أي خطية تعكر نقاء هذه القداسة.</p>
+      </div>
+
+      <div class="section" id="amos-author">
+        <div class="section-title">أولاً: كاتب السفر</div>
+        <ul class="styled-list">
+          <li>كاتب السفر هو عاموس النبي، ومعنى كلمة عاموس "حامل الثقل". كان إنسانًا بسيطًا يعمل راعيًا وجانيًا للجميز.</li>
+          <li>يقول التقليد اليهودي إنه كان ثقيل اللسان متلعثمًا في كلماته؛ ولعل اسمه يتناسب مع كشفه عن ثقل الخطية التي لا يحتملها الله ولا يطيقها، أيًا كان مرتكبها.</li>
+          <li>عاش في تقوع، بعد ١٢ ميلاً جنوب أورشليم، وسط أسرة مجهولة وفقيرة.</li>
+          <li>مع أنه نشأ في يهوذا، أُرسل إلى إسرائيل في أيام الملك يربعام الثاني حوالي عام ٧٨٧-٧٤٧ ق.م.</li>
+          <li>ذهب إلى بيت إيل حيث الهيكل الرئيسي لمملكة إسرائيل، وتحدّث عن خراب المملكة بسبب خطاياها، مما أثار غضب أمصيا كاهن بيت إيل الذي طلب منه ترك المدينة.</li>
+          <li>عاصره هوشع النبي في أواخر أيامه، وعاصر بدء خدمة إشعياء، وفي أيامه أيضًا تنبأ يونان بن أمتاي في إسرائيل.</li>
+        </ul>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">اتضاعه</div>
+            <p>(عا ٧: ١١-١٤) إذ يسأله أمصيا عن حقيقة مركزه يجيب: "أنا راعٍ وجاني جميز، فأخذني الرب من وراء الضأن"، دون أن يخجل من عمله المتواضع.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">شجاعته</div>
+            <p>بالرغم مما اتسم به أمصيا من قوة التصاقه بالملك، بقي عاموس أمينًا لرسالته، لا يخشاه، بل يشهد للحق متنبئًا عن خراب بيته.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">حكمته</div>
+            <p>لم يخاطب الرؤساء والعظماء وحدهم، بل تحدث مع جميع فئات الشعب لأجل توبة الكل.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="amos-date">
+        <div class="section-title">ثانياً: زمن كتابة السفر</div>
+        <p>تنبأ عاموس في أيام عزيا ملك يهوذا وفي أيام يربعام الثاني ملك إسرائيل، قبل الزلزلة بسنتين، ويمكن تقدير تاريخ نبوته بسنة ٧٦٧ ق.م. من الإشارات التاريخية: الزلزلة (عا ١: ١)، وسبي إسرائيل على يد الأشوريين سنة ٧٢١ ق.م. (عا ٢: ١١)، وربما حديثه عن غياب الشمس في الظهر (عا ٨: ٩) يشير إلى ظلمة الشمس وقت صلب رب المجد.</p>
+      </div>
+
+      <div class="section" id="amos-overview">
+        <div class="section-title">ثالثاً: نظرة عامة على السفر</div>
+        <p>كانت فترة عاموس فترة هدوء واستقرار سياسي وازدهار في إسرائيل ويهوذا، مما أدى لازدهار التجارة، لكن كثرة الأموال أدت لظهور طبقتين: طبقة غنية تعيش في ترف زائد، وطبقة فقيرة جدًا هي طبقة الفلاحين التي جاء منها عاموس. جاءت نبوته أشبه بثورة اجتماعية على الظلم والاستعباد والفساد.</p>
+      </div>
+
+      <div class="section" id="amos-parts">
+        <div class="section-title">أقسام السفر</div>
+        <div class="book-parts">
+          <div class="book-part"><div class="part-label">القسم الأول</div><div class="part-name">دينونة الله للخطية</div><div class="part-ref">ص ١-٢</div></div>
+          <div class="book-part"><div class="part-label">القسم الثاني</div><div class="part-name">رسائل وعظات لإسرائيل</div><div class="part-ref">ص ٣-٦</div></div>
+          <div class="book-part"><div class="part-label">القسم الثالث</div><div class="part-name">رؤى ووعد بالخلاص</div><div class="part-ref">ص ٧-٩</div></div>
+        </div>
+        <p>القسم الأول يظهر كراهية الله للخطية عمومًا سواء من الأمم المحيطة أو من شعبه، بصيغة متكررة: "هكذا قال الرب: من أجل ذنوب... الثلاثة والأربعة لا أرجع عنه". القسم الثاني يحوي ثلاث عظات ومجموعتين من الويلات، دعوة للتوبة تفضح خطايا بني إسرائيل. القسم الثالث يحوي رؤى (الجراد، النار، الزيج، سلة القطاف، المذبح) ويختم بفتح أبواب الرجاء لكل الشعوب داخل خيمة داود الجديدة.</p>
+      </div>
+
+      <div class="section" id="amos-key">
+        <div class="section-title">رابعاً: المحاور الأساسية</div>
+        <div class="key-point"><strong>الكلمة المحورية للسفر:</strong> دينونة إسرائيل — كراهية الله للخطية لأنها تتعارض مع طبيعته الكلية القداسة.</div>
+        <div class="verse-box">
+          «اسْمَعُوا هَذَا الْقَوْلَ الَّذِي أَنَا نَادِبٌ بِهِ عَلَيْكُمْ... فَقَطْ إِيَّاكُمْ عَرَفْتُ مِنْ كُلِّ عَشَائِرِ الأَرْضِ. لِذَلِكَ أُعَاقِبُكُمْ عَلَى كُلِّ ذُنُوبِكُمْ»
+          <div class="verse-ref">(عا ٥: ١؛ ٣: ٢)</div>
+        </div>
+        <div class="verse-box">
+          «هَا أَيَّامٌ تَأْتِي، يَقُولُ السَّيِّدُ الرَّبُّ، وَأُرْسِلُ جُوعًا فِي الأَرْضِ، لاَ جُوعًا لِلْخُبْزِ وَلاَ عَطَشًا لِلْمَاءِ، بَلْ لِسَمَاعِ كَلِمَاتِ الرَّبِّ»
+          <div class="verse-ref">(عا ٨: ١١-١٢)</div>
+        </div>
+        <div class="key-point"><strong>الأصحاح المحوري:</strong> الأصحاح التاسع — بعد فرص كثيرة ورؤى ورسائل، يفتح الله في نهايته باب التوبة ويعد بالثبات وعدم السبي مرة أخرى.</div>
+      </div>
+
+      <div class="section" id="amos-christ">
+        <div class="section-title">خامساً: المسيح في سفر عاموس</div>
+        <ul class="styled-list">
+          <li>هو الذي يحكم على كل الشعوب (عا ١-٩: ٧).</li>
+          <li>هو الذي سيخلص شعبه ويقيمهم مرة أخرى (عا ٩: ١١-١٥) — نبوة استشهد بها القديس يعقوب في مجمع أورشليم الأول عن إقامة خيمة داود الساقطة (أع ١٥: ١٦-١٨).</li>
+          <li>رأى بعض آباء الكنيسة في حديث عاموس عن ظلمة الشمس (عا ٨: ٩) صورة لظلمة الشمس وقت صلب المسيح من الساعة السادسة إلى التاسعة.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════ سفر يونان ══════════ -->
+  <section class="chapter ch-4" id="jonah">
+    <div class="chapter-header">
+      <div class="chapter-number">السفر الرابع</div>
+      <h2 class="chapter-title">سفر يونان</h2>
+      <div class="chapter-subtitle">محبة الله للبشرية جمعاء — رمز لموت المسيح وقيامته</div>
+      <div class="chapter-stripe"></div>
+    </div>
+    <div class="chapter-body">
+
+      <div class="section" id="jonah-author">
+        <div class="section-title">أولاً: كاتب السفر</div>
+        <ul class="styled-list">
+          <li>كاتب السفر هو يونان بن أمتاي، لا نعرف الكثير عن خلفيته وحياته سوى ما ذُكر في (٢مل ١٤: ٢٥).</li>
+          <li>كلمة "يونان" أو "يونا" في العبرية تعني حمامة.</li>
+          <li>ذُكر أنه من جت حافر، بعيدة ثلاثة أميال شمال الناصرة في الجليل، وبالتالي كانت في مملكة يهوذا، لذلك يُرجَّح أن يونان كان من مملكة إسرائيل الشمالية.</li>
+          <li>جاء في التقليد اليهودي أن يونان هو ابن الأرملة التي أقامه إيليا النبي في صرفة صيدا (١مل ١٧: ١٠-٢٤)، ويرى البعض أن هذا يليق بإرسال هذا النبي المحب لإسرائيل إلى نينوى الأممية.</li>
+        </ul>
+      </div>
+
+      <div class="section" id="jonah-date">
+        <div class="section-title">ثانياً: زمن كتابة السفر</div>
+        <p>بحسب ما ذُكر في سفر الملوك الثاني، كان يونان معاصرًا للملك يربعام الثاني ملك إسرائيل، وهو نفسه الذي عاصره هوشع وعاموس من أنبياء إسرائيل، وإشعياء وميخا من أنبياء يهوذا. وعلى هذا تكون نبوة يونان تقريبًا في النصف الأول من القرن الثامن ق.م.، حوالي عام ٧٨٠-٧٥٠ ق.م.</p>
+      </div>
+
+      <div class="section" id="jonah-features">
+        <div class="section-title">ثالثاً: سمات السفر</div>
+        <ul class="styled-list">
+          <li>كشف هذا السفر عن محبة الله للبشرية من جوانب متعددة، فأعلن أنه إله الجميع، يهتم باليهود كما بالأمم، يريد خلاص كل نفس.</li>
+          <li>يستخدم الله كل شيء حتى الخليقة الجامدة لتحقيق غايته نحو الإنسان: أرسل نوءًا عظيمًا ثم أوقفه، أعدّ حوتًا ليبتلع يونان ثم يلقيه، أنبت يقطينة ثم دودة لتتلفها، وأرسل ريحًا شرقية.</li>
+          <li>بحث الله عن كل نفس بشرية لأجل خلاصها: يونان النبي العاصي، أهل السفينة الوثنيون، وأهل نينوى القساة.</li>
+          <li>التحم النسك مع التوبة إذ رجع أهل نينوى عن طريقهم الرديئة، واتسموا بالرجاء المفرح رغم أن يونان لم يقدم لهم وعدًا صريحًا بالنجاة.</li>
+          <li>رغم استجابة نينوى السريعة، لم يفرح يونان بذلك، بل ظل محصورًا في انتمائه القومي، فاحتاج درسًا آخر من الله عبر اليقطينة والدودة والريح الشرقية ليعلن له اشتياق الله لخلاص الجميع بلا تمييز.</li>
+          <li>تُصلي الكنيسة صلاة يونان ضمن تسابيح سبت الفرح.</li>
+        </ul>
+      </div>
+
+      <div class="section" id="jonah-parts">
+        <div class="section-title">أقسام السفر</div>
+        <div class="grid-2">
+          <div class="col-box"><h4>الدعوة الأولى</h4><ul><li>ص ١ – ٢</li></ul></div>
+          <div class="col-box"><h4>الدعوة الثانية</h4><ul><li>ص ٣ – ٤</li></ul></div>
+        </div>
+      </div>
+
+      <div class="section" id="jonah-key">
+        <div class="section-title">رابعاً: المحاور الأساسية للسفر</div>
+        <div class="key-point"><strong>الكلمة المحورية للسفر:</strong> التوبة — محبة الله وقلبه الذي يشفق على كل البشر ويترجى توبتهم، واستجابة نينوى الجماعية من القلب.</div>
+        <div class="verse-box">
+          «أَمَّا أَنَا فَبِصَوْتِ الْحَمْدِ أَذْبَحُ لَكَ. أُوفِي بِمَا نَذَرْتُهُ. لِلرَّبِّ الْخَلاَصُ»
+          <div class="verse-ref">(يون ٢: ٨-٩)</div>
+        </div>
+        <div class="verse-box">
+          «فَصَلَّى إِلَى الرَّبِّ وَقَالَ: آهِ يَا رَبُّ، أَلَيْسَ هَذَا كَلاَمِي إِذْ كُنْتُ بَعْدُ فِي أَرْضِي؟... لأَنِّي عَلِمْتُ أَنَّكَ إِلَهٌ رَؤُوفٌ وَرَحِيمٌ، بَطِيءُ الْغَضَبِ وَكَثِيرُ الرَّحْمَةِ، وَنَادِمٌ عَلَى الشَّرِّ»
+          <div class="verse-ref">(يون ٤: ٢)</div>
+        </div>
+        <div class="key-point"><strong>الأصحاح المحوري:</strong> الأصحاح الرابع — يكشف عن سبب هذه الإرسالية ليونان النبي.</div>
+      </div>
+
+      <div class="section" id="jonah-christ">
+        <div class="section-title">خامساً: المسيح في سفر يونان</div>
+        <p>لا توجد نبوة صريحة من فم يونان عن المسيح، إلا أن يونان هو النبي الوحيد بين أنبياء العهد القديم الذي اعتبره رب المجد مثالاً له: وجود يونان في جوف الحوت ثلاثة أيام مثال لموت المسيح وقبره ثلاثة أيام، ونجاة يونان مثال لقيامة رب المجد من بين الأموات (مت ١٢: ٤٠؛ لو ١١: ٣٠).</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════ سفر عوبديا ══════════ -->
+  <section class="chapter ch-5" id="obadiah">
+    <div class="chapter-header">
+      <div class="chapter-number">السفر الخامس</div>
+      <h2 class="chapter-title">سفر عوبديا</h2>
+      <div class="chapter-subtitle">دينونة أدوم وخلاص إسرائيل — أصغر أسفار العهد القديم</div>
+      <div class="chapter-stripe"></div>
+    </div>
+    <div class="chapter-body">
+
+      <div class="section" id="obadiah-author">
+        <div class="section-title">أولاً: كاتب السفر</div>
+        <p>كاتب السفر هو عوبديا النبي، وهو نبي غير معروف من جهة نسبه ومكان ميلاده، ربما عاش في مملكة يهوذا الجنوبية. اسم "عوبديا" معناه "عبد يهوه" أو "المتعبِّد ليهوه". ذُكر في أسفار العهد القديم ثلاث عشر شخصًا يحملون هذا الاسم، وأربعة منهم قد يكونون الأقرب لكاتب هذا السفر.</p>
+      </div>
+
+      <div class="section" id="obadiah-date">
+        <div class="section-title">ثانياً: زمن كتابة السفر</div>
+        <p>لم يسجل لنا السفر أسماء الملوك المعاصرين لفترة النبوة، لكن من خلال الأحداث المذكورة (تحالف الأدوميين مع أعداء إسرائيل واشتراكهم في نهب أورشليم) يمكن ترجيح أن الزمن هو أيام يهورام ملك يهوذا، حوالي ٨٤٨-٨٤١ ق.م.، مما يجعل سفر عوبديا أول أسفار الأنبياء تاريخيًا، ومعاصرًا لأليشع النبي.</p>
+      </div>
+
+      <div class="section" id="obadiah-features">
+        <div class="section-title">ثالثاً: سمات السفر</div>
+        <p>نبوة عوبديا هي نبوة عن أدوم، بمثابة محاكمة لهذا الشعب الذي ظل يحكم عليه بالإدانة والهلاك. "أدوم" تعني "دموي" أو "أحمر"، وهو في الأصل عيسو أخو يعقوب. سفر عوبديا هو أصغر أسفار العهد القديم، يتكوّن من أصحاح واحد فقط، ويحمل رسالة مختصرة لكنها قاطعة عن الحكم على شعب أدوم لكبريائه وظلمه لشعب إسرائيل أخيه.</p>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">كبرياء أدوم</div>
+            <p>كان الأدوميون ساكنين في جبل عالٍ هو جبل سعير، وكانوا يعتقدون أن مئة فرد منهم يستطيعون الانتصار على عشرة آلاف من الغزاة.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">ظلمه لأخيه يعقوب</div>
+            <p>ظل أدوم عدوًا لأخيه يعقوب، وساند أعداءه حتى إن الهاربين من الأعداء كان الأدوميون يسلمونهم إليهم.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">رجاء خلاص إسرائيل</div>
+            <p>في نهاية السفر يعطي الله رجاءً لشعبه بأنهم سيرثون ليس فقط أرضهم، بل أراضي كل أعدائهم — رمز لرجاء الخلاص الأبدي.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="obadiah-jeremiah">
+        <div class="section-title">بين عوبديا وإرميا</div>
+        <p>جاءت نبوة إرميا ضد أدوم (إر ٤٩: ٧-٢٢) متطابقة مع عبارات نبوة عوبديا (عو ١-٩ تقابل إر ٤٩: ١٤-١٦؛ عو ٥-٦ تقابل إر ٤٩: ٩-١٠؛ عو ٨-٩ تقابل إر ٤٩: ٧، ٢٢).</p>
+      </div>
+
+      <div class="section" id="obadiah-parts">
+        <div class="section-title">أقسام السفر</div>
+        <div class="grid-2">
+          <div class="col-box"><h4>كبرياء أدوم وظلمه لأخيه</h4><ul><li>ع ١ – ١٦</li></ul></div>
+          <div class="col-box"><h4>خلاص صهيون</h4><ul><li>ع ١٧ – ٢١</li></ul></div>
+        </div>
+      </div>
+
+      <div class="section" id="obadiah-key">
+        <div class="section-title">رابعاً: المحاور الأساسية للسفر</div>
+        <div class="key-point"><strong>الكلمة المحورية للسفر:</strong> دينونة أدوم وخلاص إسرائيل.</div>
+        <div class="verse-box">
+          «مِنْ أَجْلِ ظُلْمِكَ لأَخِيكَ يَعْقُوبَ يَغْشَاكَ الْخِزْيُ وَتَنْقَرِضُ إِلَى الأَبَدِ»
+          <div class="verse-ref">(عو ١٠)</div>
+        </div>
+        <div class="verse-box">
+          «وَيَصْعَدُ مُخَلِّصُونَ عَلَى جَبَلِ صِهْيَوْنَ لِيَدِينُوا جَبَلَ عِيسُو، وَيَكُونُ الْمُلْكُ لِلرَّبِّ»
+          <div class="verse-ref">(عو ٢١)</div>
+        </div>
+      </div>
+
+      <div class="section" id="obadiah-christ">
+        <div class="section-title">خامساً: المسيح في سفر عوبديا</div>
+        <ul class="styled-list">
+          <li>قاضٍ عادل لكل الأمم: «كَمَا فَعَلْتَ يُفْعَلُ بِكَ. عَمَلُكَ يَرْتَدُّ عَلَى رَأْسِكَ» (عو ١٥).</li>
+          <li>مخلِّص لإسرائيل: «وَيَكُونُ بَيْتُ يَعْقُوبَ نَارًا... وَبَيْتُ عِيسُو قَشًّا، فَيُشْعِلُونَهُمْ وَيَأْكُلُونَهُمْ» (عو ١٧-١٨).</li>
+          <li>صاحب الملك: «وَيَصْعَدُ مُخَلِّصُونَ عَلَى جَبَلِ صِهْيَوْنَ لِيَدِينُوا جَبَلَ عِيسُو، وَيَكُونُ الْمُلْكُ لِلرَّبِّ» (عو ٢١).</li>
+        </ul>
+        <p>يرى القديس أغسطينوس في أدوم الذي يحكمه الله من جبل صهيون إشارة إلى الأمم الأشرار الذين يتقبلون الإيمان خلال الرسل القادمين من جبل صهيون — أي الكنيسة الواحدة الجامعة التي تضم اليهود والأمم معًا.</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<div style="padding: 3rem 4rem; border-top: 1px solid var(--border); background: var(--surface); text-align: center;">
+  <p style="color: var(--text-muted); font-size: 0.85rem; font-family: 'Amiri', serif; line-height: 2;">
+    الكلية الإكليريكية القبطية الأرثوذكسية بالإسكندرية<br>
+    <span style="font-size: 0.78rem;">دراسة العهد القديم — الأنبياء الصغار</span>
+  </p>
+</div>
+
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const hamburger = document.getElementById('hamburgerBtn');
+  const closeBtn = document.getElementById('sidebarClose');
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function closeSidebarOnMobile() {
+    if (window.innerWidth <= 768) closeSidebar();
+  }
+
+  hamburger.addEventListener('click', openSidebar);
+  closeBtn.addEventListener('click', closeSidebar);
+  overlay.addEventListener('click', closeSidebar);
+
+  function toggleSection(header) {
+    const section = header.parentElement;
+    const isOpen = section.classList.contains('open');
+    document.querySelectorAll('.nav-section').forEach(s => s.classList.remove('open'));
+    if (!isOpen) section.classList.add('open');
+  }
+
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.style.color = '');
+        const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+        if (activeLink) {
+          activeLink.style.color = 'var(--gold-light)';
+          const parentSection = activeLink.closest('.nav-section');
+          if (parentSection && !parentSection.classList.contains('open')) {
+            document.querySelectorAll('.nav-section').forEach(s => s.classList.remove('open'));
+            parentSection.classList.add('open');
+          }
+        }
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
